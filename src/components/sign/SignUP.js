@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { AuthContext } from '../../context/SignInContext';
+import Show from '../show/Show'
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,9 +21,49 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 
+import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
+
 const useStyles = makeStyles((theme) => ({
+    // paper: {
+    //     marginTop: theme.spacing(8),
+    //     display: 'flex',
+    //     flexDirection: 'column',
+    //     alignItems: 'center',
+    // },
+    // avatar: {
+    //     margin: theme.spacing(1),
+    //     backgroundColor: theme.palette.secondary.main,
+    // },
+    // form: {
+    //     width: '100%', // Fix IE 11 issue.
+    //     marginTop: theme.spacing(3),
+    // },
+    // submit: {
+    //     margin: theme.spacing(3, 0, 2),
+    // },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
+    root: {
+        height: '100vh',
+    },
+    image: {
+        backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor:
+            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
     paper: {
-        marginTop: theme.spacing(8),
+        margin: theme.spacing(8, 4),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -31,128 +74,293 @@ const useStyles = makeStyles((theme) => ({
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(1),
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
     },
 
 }));
 
 export default function SignUp() {
+    const context = useContext(AuthContext);
     const classes = useStyles();
-    const [role, setRole] = React.useState('');
-    const handleChange = (event) => {
+    const [role, setRole] = useState('');
+    const [userName, setUserName] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+    const [open, setOpen] = React.useState(true);
+
+    const handleChangeradio = (event) => {
         setRole(event.target.value);
     };
+    const handleName = e => {
+        console.log('from sign up====>', e.target.name);
+        setName(e.target.value)
+    }
+    const handleUserName = e => {
+        setUserName(e.target.value)
+    }
+    const handleEmail = e => {
+        setEmail(e.target.value)
+    }
+    const handlePassword = e => {
+        setPassword(e.target.value)
+    }
+    const handleSubmit = e => {
+        e.preventDefault();
+        e.target.reset();
+        const object = {
+            userName: userName,
+            role: role,
+            password: password,
+            email: email,
+            name: name,
+        }
+        console.log('from sign up====>', object);
+        context.signUp(object)
 
-    
+    }
+
 
     return (
-        <Container component="main" maxWidth="xs">
+        <Grid container component="main" className={classes.root}>
             <CssBaseline />
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign up
-        </Typography>
-                <form className={classes.form} noValidate>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12} >
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} >
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="password"
-                                label="Password"
-                                type="password"
-                                id="password"
-                                autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                        <FormControl className={classes.formControl} xs={12}>
-                        <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={role}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={10}>Admin</MenuItem>
-                            <MenuItem value={20}>Editor</MenuItem>
-                            <MenuItem value={30}>User</MenuItem>
-                        </Select>
-                    </FormControl>
-                        </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
-                        or Via LinkedIn 
-                    </Button>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                    >
+            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+            <Grid item xs={12} sm={8} md={5} elevation={6} square>
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
                         Sign Up
-                    </Button>
+          </Typography>
+                    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+                        <TextField
+                            onChange={handleUserName}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            id="email"
+                            label="Username"
+                            name="username"
+                            autoComplete="email"
+                            autoFocus
+                        />
+                        <TextField
+                            onChange={handlePassword}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                        />
+                        <TextField
+                            onChange={handleName}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="name"
+                            label="Name"
+                            id="password"
+                            autoComplete="name"
+                        />
+                        <TextField
+                            onChange={handleEmail}
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="email"
+                            label="Email"
+                            id="email"
+                            autoComplete="current-email"
+                        />
 
-                </form>
-            </div>
-            {/* <Box mt={5}>
-                <Copyright />
-            </Box> */}
-        </Container>
+                        <Grid item xs={12}>
+                            <FormControl className={classes.formControl} xs={12}>
+                                <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={role}
+                                    onChange={handleChangeradio}
+                                >
+                                    <MenuItem name='select' value='admin'>Admin</MenuItem>
+                                    <MenuItem name='select' value='editor'>Editor</MenuItem>
+                                    <MenuItem name='select' value='user'>User</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+
+                        >
+                            Sign UP
+            </Button>
+                        <Show condition={context.signedUp}>
+                            <Collapse in={open}>
+                                <Alert
+                                    action={
+                                        <IconButton
+                                            aria-label="close"
+                                            color="inherit"
+                                            size="small"
+                                            onClick={() => {
+                                                setOpen(false);
+                                            }}
+                                        >
+                                            <CloseIcon fontSize="inherit" />
+                                        </IconButton>
+                                    }
+                                >
+                                    You Signed up successfuly wait for permission and <a href="/">Sign In</a>
+        </Alert>
+                            </Collapse>
+                        </Show>
+                        {/* <Grid container>
+                            <Grid item>
+                                <Link href="#" variant="body2">
+                                    {"have an account? Sign In"}
+                                </Link>
+                            </Grid>
+                        </Grid> */}
+                    </form>
+                </div>
+
+            </Grid>
+        </Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // <Container component="main" maxWidth="xs">
+        //     <CssBaseline />
+        //     <div className={classes.paper}>
+        //         <Avatar className={classes.avatar}>
+        //             <LockOutlinedIcon />
+        //         </Avatar>
+        //         <Typography component="h1" variant="h5">
+        //             Sign up
+        // </Typography>
+        //         <form className={classes.form} noValidate onSubmit={handleSubmit} >
+        //             <Grid container spacing={2}>
+        //                 <Grid item xs={12} >
+
+        //                     <TextField
+        //                         onChage={handleName}
+        //                         autoComplete="fname"
+        //                         name="name"
+        //                         variant="outlined"
+        //                         required
+        //                         fullWidth
+        //                         id="firstName"
+        //                         label="Name"
+        //                         autoFocus
+        //                     />
+        //                 </Grid>
+        //                 <Grid item xs={12} >
+        //                     <TextField
+        //                         onChage={handleUserName}
+        //                         autoComplete="lname"
+        //                         variant="outlined"
+        //                         required
+        //                         fullWidth
+        //                         id="lastName"
+        //                         label="User Name"
+        //                         name="username"
+        //                     />
+        //                 </Grid>
+        //                 <Grid item xs={12}>
+        //                     <TextField
+        //                         onChage={handleEmail}
+        //                         variant="outlined"
+        //                         required
+        //                         fullWidth
+        //                         id="email"
+        //                         label="Email Address"
+        //                         name="email"
+        //                         autoComplete="email"
+        //                     />
+        //                 </Grid>
+        //                 <Grid item xs={12}>
+        //                     <TextField
+        //                         onChage={handlePassword}
+        //                         variant="outlined"
+        //                         required
+        //                         fullWidth
+        //                         name="password"
+        //                         label="Password"
+        //                         type="password"
+        //                         id="password"
+        //                         autoComplete="current-password"
+        //                     />
+        //                 </Grid>
+        //                 <Grid item xs={12}>
+        //                     <FormControl className={classes.formControl} xs={12}>
+        //                         <InputLabel id="demo-simple-select-label">Role</InputLabel>
+        //                         <Select
+        //                             labelId="demo-simple-select-label"
+        //                             id="demo-simple-select"
+        //                             value={role}
+        //                             onChange={handleChangeradio}
+        //                         >
+        //                             <MenuItem name='select' value='admin'>Admin</MenuItem>
+        //                             <MenuItem name='select' value='editor'>Editor</MenuItem>
+        //                             <MenuItem name='select' value='user'>User</MenuItem>
+        //                         </Select>
+        //                     </FormControl>
+        //                 </Grid>
+
+        //                 <Button
+        //                     type="submit"
+        //                     fullWidth
+        //                     variant="contained"
+        //                     color="primary"
+        //                     className={classes.submit}
+        //                 >
+        //                     Sign Up
+        //             </Button>
+        //             </Grid>
+        //             <Button
+        //                 type="submit"
+        //                 fullWidth
+        //                 variant="contained"
+        //                 color="primary"
+        //                 className={classes.submit}
+        //             >
+        //                 or Via LinkedIn
+        //             </Button>
+
+
+        //         </form>
+        //     </div>
+        //     {/* <Box mt={5}>
+        //         <Copyright />
+        //     </Box> */}
+        // </Container>
     );
 }

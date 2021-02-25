@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import {AuthContext} from '../../context/SignInContext';
+import { AuthContext } from '../../context/SignInContext';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -51,21 +51,21 @@ const useStyles = makeStyles((theme) => ({
 export default function SignInSide() {
   const context = useContext(AuthContext)
   const classes = useStyles();
-  const [userName,setUserName]=useState('')
-  const [password,setPassword]=useState('')
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
   const handleChange = e => {
-      
-      setPassword(e.target.value);
-    }
-    const handleChangeUserName=e=>{
-        setUserName(e.target.value);
-    }
-    const  handleSubmit = e => {
-        e.preventDefault();
-        e.target.reset();
-        context.login(userName,password)
-    
-}
+
+    setPassword(e.target.value);
+  }
+  const handleChangeUserName = e => {
+    setUserName(e.target.value);
+  }
+  const handleSubmit = e => {
+    e.preventDefault();
+    e.target.reset();
+    context.login(userName, password)
+
+  }
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -78,7 +78,7 @@ export default function SignInSide() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-        <form className={classes.form} noValidate  onSubmit={handleSubmit}>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               onChange={handleChangeUserName}
               variant="outlined"
@@ -114,18 +114,18 @@ export default function SignInSide() {
               variant="contained"
               color="primary"
               className={classes.submit}
-             
+
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
             </Grid>
-        </form>
+          </form>
         </div>
       </Grid>
     </Grid>

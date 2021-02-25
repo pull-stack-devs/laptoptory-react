@@ -15,38 +15,57 @@ class AuthProvider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loggedIn: false, 
+            loggedIn: false,
+            signedUp:false,
             login: this.login,
+            signUp: this.signUp,
             logout: this.logout,
             user: {},
             isValidAction: this.isValidAction
         }
     }
 
-    login = async(username, password)=> {
+    login = async (username, password) => {
         const encodedData = base64.encode(`${username}:${password}`)
-        console.log('from login====>',password,username)
+        console.log('from login====>', password, username)
         const result = await axios(`${API}/signin`, {
             method: 'post',
 
-            headers: {'Authorization': `Basic ${encodedData}`}
-            
+            headers: { 'Authorization': `Basic ${encodedData}` }
+
         });
-        console.log('result from fetch ',result)
+        console.log('result from fetch ', result)
         let res = await result;
         console.log(result.data);
         // res should have a token 
-        this.validateToken(res.token);
+        this.validateToken(result.data.token);
+    }
+    signUp = async (object) => {
+        const result = await axios(`${API}/signup`, {
+            method: 'post',
+            data: {
+                username: object.userName,
+                role_name: object.role,
+                password: object.password,
+                email: object.email,
+                name: object.name,
+                is_accepted: false
+            }
+        });
+        console.log("from sign up context======>",result.data)
+        if (result.data.length>0){
+          this.setState({signedUp:true});
+        }
     }
 
     validateToken = (token) => {
         // I have a token 
         // I can verify it using jwt
         // get the user object from the result
-        // let user = jwt.verify(token, process.env.SECRET);
+        // let user = jwt.verify(token, 'anything');
         console.log("in validateToken!")
         let user = jwt.decode(token); // from the docs it's not very recommended
-        if(user) {
+        if (user) {
             // save a cookie to the browser
             // set loggedIn flag to true, add user object in state
             this.setAuthState(true, token, user);
@@ -58,18 +77,18 @@ class AuthProvider extends React.Component {
         console.log("in setAuthState");
         cookie.save('auth', token);
         console.log("setAuthState user > ", user)
-        this.setState({loggedIn, user});
+        this.setState({ loggedIn, user });
     }
 
     logout = () => {
         this.setAuthState(false, null, {});
     }
 
-    isValidAction = (action)=> {       
-        return this.state.user.capabilities.includes(action);
+    isValidAction = (action) => {
+        return this.state.user.permissions.includes(action);
     }
 
-    componentDidMount = ()=> {
+    componentDidMount = () => {
         const userCookie = cookie.load('auth');
         console.log("userCookie >>> ", userCookie);
         this.validateToken(userCookie);
