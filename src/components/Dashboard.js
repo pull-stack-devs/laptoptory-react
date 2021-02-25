@@ -6,6 +6,10 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import SideList from './SideList';
+import LaptopGrid from './laptops/LaptopGrid'
+import EnhancedTableHead from "./todo-edit-table/todo";
+import { Route, Switch } from "react-router-dom";
+// import TableEditablePage from "./todo-edit-table/todo";
 
 // import { mainListItems, secondaryListItems } from './listItems';
 
@@ -158,23 +162,20 @@ function Dashboard(props) {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-              </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-              </Paper>
-            </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-              </Paper>
-            </Grid>
-          </Grid>
+          <Switch>
+            <Route exact path="/laptops">
+              <EnhancedTableHead/>
+            </Route>
+            <Route exact path="/students">
+              <p>A route for students</p>
+            </Route>
+            <Route exact path="/programs">
+              <p>A route for programs</p>
+            </Route>
+            <Route exact path="/users">
+              <p>A route for users</p>
+            </Route>
+          </Switch>
           <Box pt={4}>
             {/* <Copyright /> */}
           </Box>
