@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/SignInContext';
+import axios from 'axios'
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -16,7 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import context from 'react-bootstrap/esm/AccordionContext';
-
+import LinkedInPage from './LinkedIn';
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -40,11 +41,12 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    padding: (0, 12),
   },
 }));
 
@@ -53,6 +55,7 @@ export default function SignInSide() {
   const classes = useStyles();
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
+  const [url, setUrl] = useState('')
   const handleChange = e => {
 
     setPassword(e.target.value);
@@ -66,6 +69,9 @@ export default function SignInSide() {
     context.login(userName, password)
 
   }
+
+  
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -107,7 +113,6 @@ export default function SignInSide() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            <LinkedInIcon />
             <Button
               type="submit"
               fullWidth
@@ -118,6 +123,13 @@ export default function SignInSide() {
             >
               Sign In
             </Button>
+
+           
+
+            <LinkedInPage/>
+           
+           
+            
             <Grid container>
               <Grid item>
                 <Link href="/signup" variant="body2">

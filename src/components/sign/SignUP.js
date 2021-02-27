@@ -27,23 +27,6 @@ import Collapse from '@material-ui/core/Collapse';
 import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
-    // paper: {
-    //     marginTop: theme.spacing(8),
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     alignItems: 'center',
-    // },
-    // avatar: {
-    //     margin: theme.spacing(1),
-    //     backgroundColor: theme.palette.secondary.main,
-    // },
-    // form: {
-    //     width: '100%', // Fix IE 11 issue.
-    //     marginTop: theme.spacing(3),
-    // },
-    // submit: {
-    //     margin: theme.spacing(3, 0, 2),
-    // },
     formControl: {
         margin: theme.spacing(1),
         minWidth: 120,
@@ -98,7 +81,6 @@ export default function SignUp() {
         setRole(event.target.value);
     };
     const handleName = e => {
-        console.log('from sign up====>', e.target.name);
         setName(e.target.value)
     }
     const handleUserName = e => {
@@ -114,13 +96,12 @@ export default function SignUp() {
         e.preventDefault();
         e.target.reset();
         const object = {
-            userName: userName,
-            role: role,
+            username: userName,
+            role_name: role,
             password: password,
             email: email,
             name: name,
         }
-        console.log('from sign up====>', object);
         context.signUp(object)
 
     }
@@ -231,136 +212,18 @@ export default function SignUp() {
         </Alert>
                             </Collapse>
                         </Show>
-                        {/* <Grid container>
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    {"have an account? Sign In"}
-                                </Link>
-                            </Grid>
-                        </Grid> */}
+
+                        <Grid container>
+              <Grid item>
+                <Link href="/" variant="body2">
+                  {"You have an account? Sign In"}
+                </Link>
+              </Grid>
+            </Grid>
                     </form>
                 </div>
 
             </Grid>
         </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // <Container component="main" maxWidth="xs">
-        //     <CssBaseline />
-        //     <div className={classes.paper}>
-        //         <Avatar className={classes.avatar}>
-        //             <LockOutlinedIcon />
-        //         </Avatar>
-        //         <Typography component="h1" variant="h5">
-        //             Sign up
-        // </Typography>
-        //         <form className={classes.form} noValidate onSubmit={handleSubmit} >
-        //             <Grid container spacing={2}>
-        //                 <Grid item xs={12} >
-
-        //                     <TextField
-        //                         onChage={handleName}
-        //                         autoComplete="fname"
-        //                         name="name"
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         id="firstName"
-        //                         label="Name"
-        //                         autoFocus
-        //                     />
-        //                 </Grid>
-        //                 <Grid item xs={12} >
-        //                     <TextField
-        //                         onChage={handleUserName}
-        //                         autoComplete="lname"
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         id="lastName"
-        //                         label="User Name"
-        //                         name="username"
-        //                     />
-        //                 </Grid>
-        //                 <Grid item xs={12}>
-        //                     <TextField
-        //                         onChage={handleEmail}
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         id="email"
-        //                         label="Email Address"
-        //                         name="email"
-        //                         autoComplete="email"
-        //                     />
-        //                 </Grid>
-        //                 <Grid item xs={12}>
-        //                     <TextField
-        //                         onChage={handlePassword}
-        //                         variant="outlined"
-        //                         required
-        //                         fullWidth
-        //                         name="password"
-        //                         label="Password"
-        //                         type="password"
-        //                         id="password"
-        //                         autoComplete="current-password"
-        //                     />
-        //                 </Grid>
-        //                 <Grid item xs={12}>
-        //                     <FormControl className={classes.formControl} xs={12}>
-        //                         <InputLabel id="demo-simple-select-label">Role</InputLabel>
-        //                         <Select
-        //                             labelId="demo-simple-select-label"
-        //                             id="demo-simple-select"
-        //                             value={role}
-        //                             onChange={handleChangeradio}
-        //                         >
-        //                             <MenuItem name='select' value='admin'>Admin</MenuItem>
-        //                             <MenuItem name='select' value='editor'>Editor</MenuItem>
-        //                             <MenuItem name='select' value='user'>User</MenuItem>
-        //                         </Select>
-        //                     </FormControl>
-        //                 </Grid>
-
-        //                 <Button
-        //                     type="submit"
-        //                     fullWidth
-        //                     variant="contained"
-        //                     color="primary"
-        //                     className={classes.submit}
-        //                 >
-        //                     Sign Up
-        //             </Button>
-        //             </Grid>
-        //             <Button
-        //                 type="submit"
-        //                 fullWidth
-        //                 variant="contained"
-        //                 color="primary"
-        //                 className={classes.submit}
-        //             >
-        //                 or Via LinkedIn
-        //             </Button>
-
-
-        //         </form>
-        //     </div>
-        //     {/* <Box mt={5}>
-        //         <Copyright />
-        //     </Box> */}
-        // </Container>
     );
 }
