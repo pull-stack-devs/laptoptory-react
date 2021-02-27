@@ -1,6 +1,6 @@
 # Laptoptory
 
-## Introduction
+## Intro
 
 Laptoptory is an online inventory management system for tracking laptops (other assests as to be customized as per request) in an organiztion/company. Laptoptory is built using Node.js and React.js.
 
